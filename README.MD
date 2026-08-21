@@ -1,82 +1,76 @@
-e_commerce3
-![Preview](screen.jpg)
+# e_commerce5_docker
 
+A full-stack e-commerce analytics dashboard — runnable locally or fully containerized with Docker.
 
-## ✨ Key Features
+This is a **PyCharm** project built to practice modern full-stack development. It's an evolution of [e_commerce3](https://github.com/generateNscore/e_commerce3), now with support for both native execution and **Docker containerization**.
 
-This GitHub repository is a **PyCharm** project developed to practice full-stack development.
-Unlike e_commerce3, this project can be run normally or **containerized via Docker**.
+Once you verify the project works, you can use it as a solid, working boilerplate and customize it however you want.
 
-<font color="#5f7824">More importantly, once you confirm this project working as anticipated, the codes of this repository can serve you a sound working code that can be changed as any one wishes.</font>
+> Preview: If your screen matches `screen.jpg`, setup succeeded.
 
-The core technologies and APIs used include:
+### ✨ Key Features
 
-* **Python**-based backend
-* **FastAPI** framework
-* **PostgreSQL** database
-* **RESTful API** communication between Frontend and Backend
-* **Docker**
+- Full-stack web application with KPI dashboard and 3 analytics charts
+- Auto-generated mock data for testing
+- Dual run modes: Native Python and Docker Compose
+- Interactive API documentation via Swagger UI
 
-While it is not a commercial-grade application, it is highly complete and allows you to test the project using your own database consisting of 5 tables (See `e_commerce3_models.pptx` for a full description).
+### 🛠 Tech Stack
 
-You can explore the detailed structures of the tables, columns, and relationships in the project files (see below to clone and set up the project).
+- **Backend:** Python, FastAPI
+- **Database:** PostgreSQL with SQLAlchemy
+- **Frontend:** HTML / JS (served by FastAPI), RESTful API
+- **DevOps:** Docker & Docker Compose
+- **Data Model:** 5 related tables (see `e_commerce3_models.pptx` for ERD and details)
 
-## ⚙️ Installation and Configuration
+### 📋 Prerequisites
 
-If you need help cloning the repository into PyCharm, please refer to this guide:
-[How to create a project folder in PyCharm with a GitHub repository](https://www.google.com/search?q=how+to+create+project+folder+in+pycharm+with+a+github+repository)
+- [PyCharm](https://www.jetbrains.com/pycharm/) (or any Python IDE)
+- [PostgreSQL](https://www.postgresql.org/download/) installed locally (for native mode)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (for containerized mode)
+- Python 3.10+
 
-If you encounter any issues, feel free to contact me at smlee@inha.ac.kr.
+### ⚙️ Installation
 
-### Prerequisites
-Before proceeding, make sure you have **PyCharm** and **PostgreSQL** installed on your PC. Then, follow these two steps:
+**1. Clone the repository**
 
-1. Open the Terminal in PyCharm and run the following command to install all required libraries:
-   ```bash
-   pip install -r requirements.txt
-   ```
-2. Create a file named `.env` in the project root folder and paste the following line:
+If you need help cloning into PyCharm: [Guide to cloning a GitHub repo in PyCharm](https://www.google.com/search?q=How+to+create+a+project+folder+in+PyCharm+with+a+GitHub+repository)
 
-   ```env
-   DATABASE_URL=postgresql+psycopg2://postgres:{your_password}@localhost:5432/e_commerce_db
-   ```
-   *Note: This file is required for the project to run. Replace `{your_password}` with the password you set during PostgreSQL installation.*
+**2. Install dependencies**
 
-## 🧩 Running the Cloned Project: #1 Normal way
-
-With Docker installed in your PC, you can run one of two ways: the normal way and another way in containers.
-
-To start the backend server, open the Terminal and run:
+Open the terminal in PyCharm and run:
 
 ```bash
+pip install -r requirements.txt
+```
+
+## 🚀 Running the Project
+You can run this project in two ways.
+
+### Option 1: Native Mode (without Docker)
+
+1. Create your .env file
+
+Create a file named .env in the project root and add:
+
+```env
+DATABASE_URL=postgresql+psycopg2://postgres:{your_password}@localhost:5432/e_commerce_db
+```
+> Replace {your_password} with your local PostgreSQL password. This database e_commerce_db should be created in your local PostgreSQL.
+
+2. Start the server
+
+```Bash
 uvicorn app.main:app --reload
 ```
 
-Once you see `"Application startup complete."` at the end of the log, your backend server is ready. The server runs on the default port `8000`.
+When you see Application startup complete. in the logs, the server is ready on port 8000.
 
-### Accessing the Project
-You can access the project in your browser using two different URLs:
+### Option 2: Docker Mode (Containerized)
 
-1. **Frontend / Main Interface**
+1. Update your .env file
 
-```
-http://127.0.0.1:8000
-```
-
-*The page will display the main dashboard screen, likely showing all 0s initially.*
-
-2. **FastAPI Interactive Docs (API Endpoints)**
-
-```
-http://127.0.0.1:8000/docs
-```
-
-*This page displays the interactive FastAPI endpoints. Below you will find the way to generate and add data to database.*
-
-
-## 🧩 Running the Cloned Project: #2 Another way in containers
-
-Comment the content of the file named `.env` mentioned above and paste the following lines:
+Comment out the previous line and replace it with:
 
 ```env
 DATABASE_URL=postgresql+psycopg2://postgres:{your_password}@db:5432/db_docker
@@ -84,41 +78,59 @@ POSTGRES_USER=postgres
 POSTGRES_PASSWORD={your_password}
 POSTGRES_DB=db_docker
 ```
-*Note: This file is required for the project to be dockerized. Replace `{your_password}` with the password you set during PostgreSQL installation.*
 
-*Note: Although the same POSTGRES_DB name is used, the actual DB inside dockerized project is totally separated from the one in your local PC. Ask your favorite AI for the details.*
+> Replace {your_password} with the password you want to use.
 
-To start the backend server, open the Terminal and run AFTER running Docker Desktop:
+> Note: Even if the DB name is similar, the Dockerized database is fully isolated from your local PC. It runs inside the db container.
 
-```bash
+2. Start with Docker Compose
+
+Make sure Docker Desktop is running, then run:
+
+```Bash
 docker compose up --build
 ```
 
-Once you see `"Application startup complete."` at the end of the log, your backend server is ready. The server runs on the default port `8000` like the normal way.
+When you see Application startup complete., the server is ready — also on port 8000.
 
+## 🌐 Accessing the Application
+Once the server is running:
 
-## 🗄️ How to Generate Initial Data
+1. Frontend / Dashboard
 
-1. Open the swagger UI for the FastAPI endpoints with the address below: 
-
-```
-http://127.0.0.1:8000/docs
-```
-
-2. You will find 2 administrative POST endpoints, POST /admin/recreate_tables and POST /admin/generate_add_data, as well as others.
-3. If you click the button of the first endpoint, the button "Try it out", and the button "Execute", it drops all existing tables and creates them fresh from the metadata.
-4. If you click the button of the second endpoint and the button "Try it out", a box of Edit Value will be waiting for your input. You need to provide the integer values of customer_count, product_count, order_count, and city_count at the designated areas. The product_count is a tuple of 2 integers; the first one is for the categories, and the second one is for the products of each category.
-5. If you click the button of "Execute" after editing the integer values, it generate data and add them to the tables.
-6. Use another tab to open frontend webpage with the address below:
-
-```
+```Code
 http://127.0.0.1:8000
 ```
 
-7. You will see the key performance indicators and 3 different graphs for the data you have generated a moment ago.
+The main dashboard. It will show 0s initially until you generate data.
+
+2. API Docs / Swagger UI
+
+```Code
+http://127.0.0.1:8000/docs
+```
+
+Interactive FastAPI documentation for testing all endpoints.
+
+## 🗄️ Generating Initial Data
+1. Open Swagger UI: http://127.0.0.1:8000/docs
+2. You will find two admin endpoints: POST /admin/recreate_tables and POST /admin/generate_add_data
+3. Recreate Tables: Click Try it out -> Execute on /admin/recreate_tables. This will drop all existing tables and recreate them from the SQLAlchemy metadata.
+4. Generate Data: Click Try it out on /admin/generate_add_data. You will be prompted for
+
+<ul>
+   <li> customer_count: number of customers</li>
+   <li> product_count: [category_count, products_per_category] e.g., [5, 20]</li> 
+   <li> order_count: number of orders</li>
+   <li> city_count: number of cities</li>
+</ul>
+
+5. Click Execute to populate the database.
+6. Refresh http://127.0.0.1:8000 — you should now see KPIs and 3 charts populated with your generated data.
 
 
 ## 📄 License
 MIT License - free for personal and commercial use.
----
+
 Made to be cloned and run instantly. If you get the same screen as `screen.jpg`, setup succeeded.
+![Preview](screen.jpg)
