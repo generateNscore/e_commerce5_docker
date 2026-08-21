@@ -42,11 +42,9 @@ Before proceeding, make sure you have **PyCharm** and **PostgreSQL** installed o
    ```
    *Note: This file is required for the project to run. Replace `{your_password}` with the password you set during PostgreSQL installation.*
 
-## 🧩 Running the Cloned Project
+## 🧩 Running the Cloned Project: #1 Normal way
 
 With Docker installed in your PC, you can run one of two ways: the normal way and another way in containers.
-
-### 1. The normal way
 
 To start the backend server, open the Terminal and run:
 
@@ -73,9 +71,10 @@ http://127.0.0.1:8000
 http://127.0.0.1:8000/docs
 ```
 
-*This page displays the interactive FastAPI endpoints. The `POST /admin/generate_data` endpoint is the gateway to creating your initial database.*
+*This page displays the interactive FastAPI endpoints. Below you will find the way to generate and add data to database.*
 
-### 2. Another way in containers
+
+## 🧩 Running the Cloned Project: #2 Another way in containers
 
 Comment the content of the file named `.env` mentioned above and paste the following lines:
 
@@ -98,32 +97,25 @@ docker compose up --build
 Once you see `"Application startup complete."` at the end of the log, your backend server is ready. The server runs on the default port `8000` like the normal way.
 
 
----
+## 🗄️ How to Generate Initial Data
 
-### 🗄️ How to Generate Initial Data
+1. Open the swagger UI for the FastAPI endpoints with the address below: 
 
-By default, clicking **Try it out** -> **Execute** on the `POST /admin/generate_data` endpoint will only trigger a built-in `analyse(db)` function without populating the database. 
-
-To populate and set up your own database, follow these steps:
-
-1. Open `app/config.py` and change the value of `DEBUG_RESET_DB` from `False` to `True`:
-
-```python
-DEBUG_RESET_DB = True
+```
+http://127.0.0.1:8000/docs
 ```
 
-2. Open `app/routers/admin.py` and locate the data generation code:
+2. You will find 2 administrative POST endpoints, POST /admin/recreate_tables and POST /admin/generate_add_data, as well as others.
+3. If you click the button of the first endpoint, the button "Try it out", and the button "Execute", it drops all existing tables and creates them fresh from the metadata.
+4. If you click the button of the second endpoint and the button "Try it out", a box of Edit Value will be waiting for your input. You need to provide the integer values of customer_count, product_count, order_count, and city_count at the designated areas. The product_count is a tuple of 2 integers; the first one is for the categories, and the second one is for the products of each category.
+5. If you click the button of "Execute" after editing the integer values, it generate data and add them to the tables.
+6. Use another tab to open frontend webpage with the address below:
 
-```python
-world = generate_fake_data(customer_count = 567,
-                           product_count = (5,6),
-                           order_count = 8901,
-                           city_count = 5)
+```
+http://127.0.0.1:8000
 ```
 
-*You can keep these default values or modify the numbers to adjust the amount of mock data generated.*
-3. (Recommended) After generating the data, change `DEBUG_RESET_DB` in `app/config.py` back to `False`. Otherwise, your database will be deleted and recreated every time the endpoint is executed.
-4. When `DEBUG_RESET_DB` is set to `True`, the console will output a series of analytical logs verifying the SQL queries used in the frontend dashboard.
+7. You will see the key performance indicators and 3 different graphs for the data you have generated a moment ago.
 
 
 ## 📄 License
