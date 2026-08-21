@@ -5,7 +5,7 @@ e_commerce3
 ## ✨ Key Features
 
 This GitHub repository is a **PyCharm** project developed to practice full-stack development.
-Unlike e_commerce3, this project can be run normally or containerized via Docker.
+Unlike e_commerce3, this project can be run normally or **containerized via Docker**.
 
 The core technologies and APIs used include:
 
