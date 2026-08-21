@@ -4,13 +4,16 @@ e_commerce3
 
 ## ✨ Key Features
 
-This GitHub repository is a **PyCharm** project developed to practice full-stack development. 
+This GitHub repository is a **PyCharm** project developed to practice full-stack development.
+Unlike e_commerce3, this project can be run normally or containerized via Docker.
+
 The core technologies and APIs used include:
 
 * **Python**-based backend
 * **FastAPI** framework
 * **PostgreSQL** database
 * **RESTful API** communication between Frontend and Backend
+* **Docker**
 
 While it is not a commercial-grade application, it is highly complete and allows you to test the project using your own database consisting of 5 tables (See `e_commerce3_models.pptx` for a full description).
 
@@ -31,12 +34,17 @@ Before proceeding, make sure you have **PyCharm** and **PostgreSQL** installed o
    pip install -r requirements.txt
    ```
 2. Create a file named `.env` in the project root folder and paste the following line:
+
    ```env
    DATABASE_URL=postgresql+psycopg2://postgres:{your_password}@localhost:5432/e_commerce_db
    ```
    *Note: This file is required for the project to run. Replace `{your_password}` with the password you set during PostgreSQL installation.*
 
 ## 🧩 Running the Cloned Project
+
+With Docker installed in your PC, you can run one of two ways: the normal way and another way in containers.
+
+### 1. The normal way
 
 To start the backend server, open the Terminal and run:
 
@@ -64,6 +72,29 @@ http://127.0.0.1:8000/docs
 ```
 
 *This page displays the interactive FastAPI endpoints. The `POST /admin/generate_data` endpoint is the gateway to creating your initial database.*
+
+### 2. Another way in containers
+
+Comment the content of the file named `.env` mentioned above and paste the following lines:
+
+```env
+DATABASE_URL=postgresql+psycopg2://postgres:{your_password}@db:5432/db_docker
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD={your_password}
+POSTGRES_DB=db_docker
+```
+*Note: This file is required for the project to be dockerized. Replace `{your_password}` with the password you set during PostgreSQL installation.*
+
+*Note: Although the same POSTGRES_DB name is used, the actual DB inside dockerized project is totally separated from the one in your local PC. Ask your favorite AI for the details.*
+
+To start the backend server, open the Terminal and run AFTER running Docker Desktop:
+
+```bash
+docker compose up --build
+```
+
+Once you see `"Application startup complete."` at the end of the log, your backend server is ready. The server runs on the default port `8000` like the normal way.
+
 
 ---
 
